@@ -3,19 +3,15 @@
     <modelVersion>4.0.0</modelVersion>
     
     <parent>
-        <groupId>edem</groupId>
-        <artifactId>edem-root</artifactId>
+        <groupId>edem.engine</groupId>
+        <artifactId>engine-parent</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     
     <groupId>edem.engine</groupId>
-    <artifactId>engine-parent</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>graphics</artifactId>
+    <packaging>jar</packaging>
     
-    <name>EDEM Engine Parent</name>
-    
-    <modules>
-        <module>graphics</module>
-    </modules>
+    <name>EDEM Engine Graphics</name>
     
 </project>

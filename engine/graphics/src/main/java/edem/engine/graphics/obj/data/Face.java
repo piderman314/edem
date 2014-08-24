@@ -41,7 +41,6 @@ public class Face implements ParseableLine {
         
         indicesList = indices
                 .stream()
-                .map(StringUtils::trim)
                 .map(string -> string.split("/"))
                 .map(Face::parseIndices)
                 .collect(Collectors.toList());

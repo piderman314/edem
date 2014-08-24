@@ -9,7 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
-public class FloatVector {
+public abstract class FloatVector implements ParseableLine {
 
     private static final float DEFAULT_W_VALUE = 1.0f;
     
@@ -18,9 +18,9 @@ public class FloatVector {
     private float z;
     private float w;
     
-    @Getter(AccessLevel.NONE)
     private final String prefix;
     
+    @Override
     public void parseLine(String line) throws ObjException {
         if (StringUtils.isBlank(line)) {
             throw new ObjException("Cannot parse empty line");
@@ -33,7 +33,7 @@ public class FloatVector {
         }
         
         if (!StringUtils.equals(values[0], prefix)) {
-            throw new ObjException("Got a " + values[0] + " line, but expected a " + prefix + " line");
+            throw new ObjException("Got a " + values[0] + " line, but expected a " + getPrefix() + " line");
         }
         
         x = Float.parseFloat(values[1]);

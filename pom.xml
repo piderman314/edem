@@ -6,7 +6,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     
-    <name>EDEM Root Project</name>
+    <name>Every Decision Ever Made</name>
     
     <modules>
         <module>engine</module>

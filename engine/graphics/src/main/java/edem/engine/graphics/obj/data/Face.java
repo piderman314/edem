@@ -27,7 +27,7 @@ public class Face implements ParseableLine {
             throw new ObjException("Cannot parse empty line");
         }
         
-        String[] values = line.trim().split("\\s");
+        String[] values = line.trim().split("\\s+");
         
         if (values.length < 4) {
             throw new ObjException("Expected at least 3 vertices");

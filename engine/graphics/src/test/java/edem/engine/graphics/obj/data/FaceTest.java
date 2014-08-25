@@ -25,7 +25,7 @@ public class FaceTest {
     
     public void shouldParseTwoIndices() throws ObjException {
         // given
-        String line = "f 1/2 2/3 3/4";
+        String line = "f  1/2 2/3  3/4";
         Face face = new Face();
         
         // when

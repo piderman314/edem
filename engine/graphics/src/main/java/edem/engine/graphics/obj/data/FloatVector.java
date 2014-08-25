@@ -26,7 +26,7 @@ public abstract class FloatVector implements ParseableLine {
             throw new ObjException("Cannot parse empty line");
         }
         
-        String[] values = line.trim().split("\\s");
+        String[] values = line.trim().split("\\s+");
         
         if (values.length < 4 || values.length > 5) {
             throw new ObjException("Expected 3 or 4 vertices/weights");

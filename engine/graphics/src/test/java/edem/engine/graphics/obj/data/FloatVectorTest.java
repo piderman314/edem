@@ -27,7 +27,7 @@ public class FloatVectorTest {
     
     public void shouldParseFourVertices() throws ObjException {
         // given
-        String line = " test 1.0 -1.0 3.0 2.5";
+        String line = " test 1.0  -1.0      3.0 2.5";
         TestFloatVector testFloatVector = new TestFloatVector();
         
         // when

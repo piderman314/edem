@@ -73,7 +73,7 @@ public class FloatVectorTest {
     private static final class TestFloatVector extends FloatVector {
         
         public TestFloatVector() {
-            super("test");
+            super("test", 4);
         }
         
     }

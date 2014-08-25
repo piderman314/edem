@@ -1,5 +1,8 @@
 package edem.engine.graphics.obj.data;
 
+import java.util.Arrays;
+import java.util.List;
+
 import edem.engine.graphics.obj.ObjException;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -19,6 +22,7 @@ public abstract class FloatVector implements ParseableLine {
     private float w;
     
     private final String prefix;
+    private final int coordinatesUsed;
     
     @Override
     public void parseLine(String line) throws ObjException {
@@ -45,6 +49,10 @@ public abstract class FloatVector implements ParseableLine {
         } else {
             w = DEFAULT_W_VALUE;
         }
+    }
+    
+    public List<Float> getCoordinateList() {
+        return Arrays.asList(x, y, z, w).subList(0, coordinatesUsed);
     }
     
 }

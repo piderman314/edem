@@ -3,6 +3,7 @@ package edem.engine.graphics.model;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,12 +28,14 @@ public class Model {
     public Model(List<Vertex> vertexList, List<VertexTexture> vertexTextureList, List<VertexNormal> vertexNormalList, List<Indices> indexList) throws ObjException {
         Map<BufferType, Number[]> arrays = createArrays(vertexList, vertexTextureList, vertexNormalList, indexList);
         
-        float[] vertexArray = ArrayUtils.toPrimitive((Float[]) arrays.get(BufferType.VERTEX));
+        Number[] vertexNumberArray = arrays.get(BufferType.VERTEX);
+        float[] vertexArray = ArrayUtils.toPrimitive(Arrays.copyOf(vertexNumberArray, vertexNumberArray.length, Float[].class));
         vertexBuffer = BufferUtils.createFloatBuffer(vertexArray.length);
         vertexBuffer.put(vertexArray);
         vertexBuffer.flip();
         
-        int[] indexArray = ArrayUtils.toPrimitive((Integer[]) arrays.get(BufferType.INDEX));
+        Number[] indexNumberArray = arrays.get(BufferType.INDEX);
+        int[] indexArray = ArrayUtils.toPrimitive(Arrays.copyOf(indexNumberArray, indexNumberArray.length, Integer[].class));
         indexBuffer = BufferUtils.createIntBuffer(indexArray.length);
         indexBuffer.put(indexArray);
         indexBuffer.flip();
@@ -49,26 +52,22 @@ public class Model {
         
         int index = 0;
         for (Indices indices : indicesList) {
-            if (!indexMap.containsKey(indices)) {
+            if (indexMap.containsKey(indices)) {
                 indexIntBuffer.add(indexMap.get(indices));
                 continue;
             }
             
             try {
-                if (indices.getVertexIndex() != 0) {
-                    vertexFloatList.addAll(vertexList.get(indices.getVertexIndex()).getCoordinateList());
-                } else {
-                    vertexFloatList.addAll(Vertex.EMPTY_VERTEX.getCoordinateList());
-                }
+                vertexFloatList.addAll(vertexList.get(indices.getVertexIndex() - 1).getCoordinateList());
 
                 if (indices.getVertexTextureIndex() != 0) {
-                    vertexTextureFloatList.addAll(vertexTextureList.get(indices.getVertexTextureIndex()).getCoordinateList());
+                    vertexTextureFloatList.addAll(vertexTextureList.get(indices.getVertexTextureIndex() - 1).getCoordinateList());
                 } else {
                     vertexTextureFloatList.addAll(VertexTexture.EMPTY_VERTEX_TEXTURE.getCoordinateList());
                 }
 
                 if (indices.getVertexNormalIndex() != 0) {
-                    vertexNormalFloatList.addAll(vertexNormalList.get(indices.getVertexNormalIndex()).getCoordinateList());
+                    vertexNormalFloatList.addAll(vertexNormalList.get(indices.getVertexNormalIndex() - 1).getCoordinateList());
                 } else {
                     vertexNormalFloatList.addAll(VertexNormal.EMPTY_VERTEX_NORMAL.getCoordinateList());
                 }

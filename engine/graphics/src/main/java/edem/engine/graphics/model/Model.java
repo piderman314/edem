@@ -50,40 +50,41 @@ public class Model {
         int index = 0;
         for (Indices indices : indicesList) {
             if (!indexMap.containsKey(indices)) {
-                try {
-                    if (indices.getVertexIndex() != 0) {
-                        vertexFloatList.addAll(vertexList.get(indices.getVertexIndex()).getCoordinateList());
-                    } else {
-                        vertexFloatList.addAll(Vertex.EMPTY_VERTEX.getCoordinateList());
-                    }
-
-                    if (indices.getVertexTextureIndex() != 0) {
-                        vertexTextureFloatList.addAll(vertexTextureList.get(indices.getVertexTextureIndex()).getCoordinateList());
-                    } else {
-                        vertexTextureFloatList.addAll(VertexTexture.EMPTY_VERTEX_TEXTURE.getCoordinateList());
-                    }
-
-                    if (indices.getVertexNormalIndex() != 0) {
-                        vertexNormalFloatList.addAll(vertexNormalList.get(indices.getVertexNormalIndex()).getCoordinateList());
-                    } else {
-                        vertexNormalFloatList.addAll(VertexNormal.EMPTY_VERTEX_NORMAL.getCoordinateList());
-                    }
-                    
-                    index++;
-                    indexMap.put(indices, index);
-                } catch (IndexOutOfBoundsException ioobe) {
-                    throw new ObjException("Trying to index " + indices + " but there is not enough data.", ioobe);
-                }
+                indexIntBuffer.add(indexMap.get(indices));
+                continue;
             }
             
-            indexIntBuffer.add(indexMap.get(indices));
+            try {
+                if (indices.getVertexIndex() != 0) {
+                    vertexFloatList.addAll(vertexList.get(indices.getVertexIndex()).getCoordinateList());
+                } else {
+                    vertexFloatList.addAll(Vertex.EMPTY_VERTEX.getCoordinateList());
+                }
+
+                if (indices.getVertexTextureIndex() != 0) {
+                    vertexTextureFloatList.addAll(vertexTextureList.get(indices.getVertexTextureIndex()).getCoordinateList());
+                } else {
+                    vertexTextureFloatList.addAll(VertexTexture.EMPTY_VERTEX_TEXTURE.getCoordinateList());
+                }
+
+                if (indices.getVertexNormalIndex() != 0) {
+                    vertexNormalFloatList.addAll(vertexNormalList.get(indices.getVertexNormalIndex()).getCoordinateList());
+                } else {
+                    vertexNormalFloatList.addAll(VertexNormal.EMPTY_VERTEX_NORMAL.getCoordinateList());
+                }
+
+                index++;
+                indexMap.put(indices, index);
+                indexIntBuffer.add(index);
+            } catch (IndexOutOfBoundsException ioobe) {
+                throw new ObjException("Trying to index " + indices + " but there is not enough data.", ioobe);
+            }
         }
         
         List<Float> finalVertexBuffer = new ArrayList<>();
-        
-        if (vertexFloatList.parallelStream().anyMatch(f -> f != 0.0f)) {
-            finalVertexBuffer.addAll(vertexFloatList);
-        }
+
+        // vertices will always be there
+        finalVertexBuffer.addAll(vertexFloatList);
         
         if (vertexTextureFloatList.parallelStream().anyMatch(f -> f != 0.0f)) {
             finalVertexBuffer.addAll(vertexTextureFloatList);

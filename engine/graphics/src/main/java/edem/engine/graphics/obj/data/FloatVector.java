@@ -21,7 +21,6 @@ public abstract class FloatVector implements ParseableLine {
     private float z;
     private float w;
     
-    private final String prefix;
     private final int coordinatesUsed;
     
     @Override
@@ -36,7 +35,7 @@ public abstract class FloatVector implements ParseableLine {
             throw new ObjException("Expected 3 or 4 vertices/weights");
         }
         
-        if (!StringUtils.equals(values[0], prefix)) {
+        if (!StringUtils.equals(values[0], getPrefix())) {
             throw new ObjException("Got a " + values[0] + " line, but expected a " + getPrefix() + " line");
         }
         
@@ -54,5 +53,7 @@ public abstract class FloatVector implements ParseableLine {
     public List<Float> getCoordinateList() {
         return Arrays.asList(x, y, z, w).subList(0, coordinatesUsed);
     }
+    
+    protected abstract String getPrefix();
     
 }

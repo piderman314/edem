@@ -73,7 +73,12 @@ public class FloatVectorTest {
     private static final class TestFloatVector extends FloatVector {
         
         public TestFloatVector() {
-            super("test", 4);
+            super(4);
+        }
+        
+        @Override
+        protected String getPrefix() {
+            return "test";
         }
         
     }

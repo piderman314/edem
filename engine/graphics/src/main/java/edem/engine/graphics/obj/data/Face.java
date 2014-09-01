@@ -14,13 +14,10 @@ import org.apache.commons.lang3.StringUtils;
 @Getter
 public class Face implements ParseableLine {
 
+    public static final String PREFIX = "f";
+    
     private List<Indices> indicesList;
     
-    @Override
-    public String getPrefix() {
-        return "f";
-    }
-
     @Override
     public void parseLine(String line) throws ObjException {
         if (StringUtils.isBlank(line)) {
@@ -33,8 +30,8 @@ public class Face implements ParseableLine {
             throw new ObjException("Expected at least 3 vertices");
         }
         
-        if (!StringUtils.equals(values[0], getPrefix())) {
-            throw new ObjException("Got a " + values[0] + " line, but expected a " + getPrefix() + " line");
+        if (!StringUtils.equals(values[0], PREFIX)) {
+            throw new ObjException("Got a " + values[0] + " line, but expected a " + PREFIX + " line");
         }
         
         List<String> indices = Arrays.asList(values).subList(1, values.length);

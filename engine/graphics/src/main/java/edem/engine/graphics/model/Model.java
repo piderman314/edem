@@ -9,24 +9,24 @@ import java.util.List;
 import java.util.Map;
 
 import edem.engine.graphics.obj.ObjException;
+import edem.engine.graphics.obj.data.Face;
 import edem.engine.graphics.obj.data.Face.Indices;
 import edem.engine.graphics.obj.data.Vertex;
 import edem.engine.graphics.obj.data.VertexNormal;
 import edem.engine.graphics.obj.data.VertexTexture;
-import lombok.AccessLevel;
 import lombok.Getter;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.lwjgl.BufferUtils;
 
-@Getter(AccessLevel.PACKAGE)
+@Getter
 public class Model {
 
     private final FloatBuffer vertexBuffer;
     private final IntBuffer indexBuffer;
     
-    public Model(List<Vertex> vertexList, List<VertexTexture> vertexTextureList, List<VertexNormal> vertexNormalList, List<Indices> indexList) throws ObjException {
-        Map<BufferType, Number[]> arrays = createArrays(vertexList, vertexTextureList, vertexNormalList, indexList);
+    public Model(List<Vertex> vertexList, List<VertexTexture> vertexTextureList, List<VertexNormal> vertexNormalList, List<Face> faceList) throws ObjException {
+        Map<BufferType, Number[]> arrays = createArrays(vertexList, vertexTextureList, vertexNormalList, faceList);
         
         Number[] vertexNumberArray = arrays.get(BufferType.VERTEX);
         float[] vertexArray = ArrayUtils.toPrimitive(Arrays.copyOf(vertexNumberArray, vertexNumberArray.length, Float[].class));
@@ -42,8 +42,11 @@ public class Model {
     }
     
     private Map<BufferType, Number[]> createArrays(
-            List<Vertex> vertexList, List<VertexTexture> vertexTextureList, List<VertexNormal> vertexNormalList, List<Indices> indicesList) throws ObjException {
+            List<Vertex> vertexList, List<VertexTexture> vertexTextureList, List<VertexNormal> vertexNormalList, List<Face> faceList) throws ObjException {
         Map<Indices, Integer> indexMap = new HashMap<>();
+        
+        List<Indices> indicesList = new ArrayList<>();
+        faceList.stream().map(Face::getIndicesList).forEach(indicesList::addAll);
         
         List<Float> vertexFloatList = new ArrayList<>();
         List<Float> vertexTextureFloatList = new ArrayList<>();

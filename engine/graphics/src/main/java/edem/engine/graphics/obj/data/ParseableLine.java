@@ -4,7 +4,6 @@ import edem.engine.graphics.obj.ObjException;
 
 public interface ParseableLine {
 
-    String getPrefix();
     void parseLine(String line) throws ObjException;
     
 }

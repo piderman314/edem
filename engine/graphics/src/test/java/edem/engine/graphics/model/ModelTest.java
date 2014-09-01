@@ -3,21 +3,34 @@ package edem.engine.graphics.model;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.BDDMockito.given;
 
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.Arrays;
 
 import edem.engine.graphics.obj.ObjException;
+import edem.engine.graphics.obj.data.Face;
 import edem.engine.graphics.obj.data.Face.Indices;
 import edem.engine.graphics.obj.data.Vertex;
 import edem.engine.graphics.obj.data.VertexNormal;
 import edem.engine.graphics.obj.data.VertexTexture;
 
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 @Test
 public class ModelTest {
+    
+    @Mock
+    private Face face;
+    
+    @BeforeTest
+    public void init() {
+        MockitoAnnotations.initMocks(this);
+    }
 
     public void shouldCreateBuffersVerticesOnly() throws ObjException {
         // given
@@ -30,8 +43,10 @@ public class ModelTest {
         Indices index1 = Indices.of(2, 0, 0);
         Indices index2 = Indices.of(1, 0, 0);
         
+        given(face.getIndicesList()).willReturn(Arrays.asList(index1, index2));
+        
         // when
-        Model model = new Model(Arrays.asList(vertex1, vertex2), null, null, Arrays.asList(index1, index2));
+        Model model = new Model(Arrays.asList(vertex1, vertex2), null, null, Arrays.asList(face));
         
         // then
         assertVertexBuffer(model, new float[]{4.0f, 5.0f, 6.0f, 7.0f, 1.0f, 2.0f, 3.0f, 1.0f});
@@ -50,8 +65,10 @@ public class ModelTest {
         Indices index2 = Indices.of(1, 0, 0);
         Indices index3 = Indices.of(2, 0, 0);
         
+        given(face.getIndicesList()).willReturn(Arrays.asList(index1, index2, index3));
+        
         // when
-        Model model = new Model(Arrays.asList(vertex1, vertex2), null, null, Arrays.asList(index1, index2, index3));
+        Model model = new Model(Arrays.asList(vertex1, vertex2), null, null, Arrays.asList(face));
         
         // then
         assertVertexBuffer(model, new float[]{4.0f, 5.0f, 6.0f, 7.0f, 1.0f, 2.0f, 3.0f, 1.0f});
@@ -71,8 +88,10 @@ public class ModelTest {
 
         Indices index = Indices.of(1, 1, 1);
         
+        given(face.getIndicesList()).willReturn(Arrays.asList(index));
+        
         // when
-        Model model = new Model(Arrays.asList(vertex), Arrays.asList(vertexTexture), Arrays.asList(vertexNormal), Arrays.asList(index));
+        Model model = new Model(Arrays.asList(vertex), Arrays.asList(vertexTexture), Arrays.asList(vertexNormal), Arrays.asList(face));
         
         // then
         assertVertexBuffer(model, new float[]{1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 1.1f, 1.2f, -3.0f});
@@ -93,8 +112,10 @@ public class ModelTest {
         Indices index1 = Indices.of(1, 0, 1);
         Indices index2 = Indices.of(1, 1, 0);
         
+        given(face.getIndicesList()).willReturn(Arrays.asList(index1, index2));
+        
         // when
-        Model model = new Model(Arrays.asList(vertex), Arrays.asList(vertexTexture), Arrays.asList(vertexNormal), Arrays.asList(index1, index2));
+        Model model = new Model(Arrays.asList(vertex), Arrays.asList(vertexTexture), Arrays.asList(vertexNormal), Arrays.asList(face));
         
         // then
         assertVertexBuffer(model, new float[]{1.0f, 2.0f, 3.0f, 4.0f, 1.0f, 2.0f, 3.0f, 4.0f, 0.0f, 0.0f, 0.0f, 5.0f, 6.0f, 7.0f, 1.1f, 1.2f, -3.0f, 0.0f, 0.0f, 0.0f});
@@ -111,8 +132,10 @@ public class ModelTest {
 
         Indices index = Indices.of(1, 0, 1);
         
+        given(face.getIndicesList()).willReturn(Arrays.asList(index));
+        
         // when
-        Model model = new Model(Arrays.asList(vertex), null, Arrays.asList(vertexNormal), Arrays.asList(index));
+        Model model = new Model(Arrays.asList(vertex), null, Arrays.asList(vertexNormal), Arrays.asList(face));
         
         // then
         assertVertexBuffer(model, new float[]{1.0f, 2.0f, 3.0f, 4.0f, 1.1f, 1.2f, -3.0f});
@@ -128,8 +151,10 @@ public class ModelTest {
         
         Indices index = Indices.of(2, 0, 0);
         
+        given(face.getIndicesList()).willReturn(Arrays.asList(index));
+        
         // when
-        Model model = new Model(Arrays.asList(vertex), null, null, Arrays.asList(index));
+        Model model = new Model(Arrays.asList(vertex), null, null, Arrays.asList(face));
     }
     
     private void assertVertexBuffer(Model model, float[] expectedVertices) {

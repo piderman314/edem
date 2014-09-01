@@ -18,7 +18,11 @@ import edem.engine.graphics.obj.data.VertexTexture;
 
 import org.apache.commons.lang3.StringUtils;
 
-public class ObjLoader {
+public final class ObjLoader {
+    
+    private ObjLoader() {
+        // NOOP
+    }
 
     public static Model parseToModel(String resource) throws IOException, ObjException {
         try (InputStream resourceInputStream = ObjLoader.class.getResourceAsStream(resource)) {
@@ -73,6 +77,8 @@ public class ObjLoader {
                             faceList.add(face);
                         }
                     break;
+                    default:
+                        break;
                 }
             }
             

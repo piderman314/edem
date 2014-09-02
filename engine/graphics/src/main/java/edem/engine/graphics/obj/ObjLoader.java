@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -15,6 +16,8 @@ import edem.engine.graphics.obj.data.Face;
 import edem.engine.graphics.obj.data.Vertex;
 import edem.engine.graphics.obj.data.VertexNormal;
 import edem.engine.graphics.obj.data.VertexTexture;
+import edem.util.function.FunctionUtil;
+import edem.util.function.ResultOrException;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -46,36 +49,28 @@ public final class ObjLoader {
             for (Entry<String, List<String>> lineGroup : lines.entrySet()) {
                 switch (lineGroup.getKey()) {
                     case Vertex.PREFIX:
-                        vertexList = new ArrayList<>();
-                        for (String line : lineGroup.getValue()) {
-                            Vertex vertex = new Vertex();
-                            vertex.parseLine(line);
-                            vertexList.add(vertex);
-                        }
+                        Collection<ResultOrException<Vertex, ObjException>> vertices = lineGroup.getValue().stream()
+                                .map(FunctionUtil.wrapException(Vertex::of))
+                                .collect(Collectors.toList());
+                        vertexList = new ArrayList<>(FunctionUtil.<Vertex, ObjException>unwrap(vertices));
                     break;
                     case VertexTexture.PREFIX:
-                        vertexTextureList = new ArrayList<>();
-                        for (String line : lineGroup.getValue()) {
-                            VertexTexture vertexTexture = new VertexTexture();
-                            vertexTexture.parseLine(line);
-                            vertexTextureList.add(vertexTexture);
-                        }
+                        Collection<ResultOrException<VertexTexture, ObjException>> vertexTextures = lineGroup.getValue().stream()
+                                .map(FunctionUtil.wrapException(VertexTexture::of))
+                                .collect(Collectors.toList());
+                        vertexTextureList = new ArrayList<>(FunctionUtil.<VertexTexture, ObjException>unwrap(vertexTextures));
                     break;
                     case VertexNormal.PREFIX:
-                        vertexNormalList = new ArrayList<>();
-                        for(String line : lineGroup.getValue()) {
-                            VertexNormal vertexNormal = new VertexNormal();
-                            vertexNormal.parseLine(line);
-                            vertexNormalList.add(vertexNormal);
-                        }
+                        Collection<ResultOrException<VertexNormal, ObjException>> vertexNormals = lineGroup.getValue().stream()
+                                .map(FunctionUtil.wrapException(VertexNormal::of))
+                                .collect(Collectors.toList());
+                        vertexNormalList = new ArrayList<>(FunctionUtil.<VertexNormal, ObjException>unwrap(vertexNormals));
                     break;
                     case Face.PREFIX:
-                        faceList = new ArrayList<>();
-                        for (String line : lineGroup.getValue()) {
-                            Face face = new Face();
-                            face.parseLine(line);
-                            faceList.add(face);
-                        }
+                        Collection<ResultOrException<Face, ObjException>> faces = lineGroup.getValue().stream()
+                                .map(FunctionUtil.wrapException(Face::of))
+                                .collect(Collectors.toList());
+                        faceList = new ArrayList<>(FunctionUtil.<Face, ObjException>unwrap(faces));
                     break;
                     default:
                         break;

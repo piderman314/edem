@@ -62,6 +62,12 @@ public class Face implements ParseableLine {
         
         return Integer.parseInt(index);
     }
+    
+    public static Face of(String line) throws ObjException {
+        Face face = new Face();
+        face.parseLine(line);
+        return face;
+    }
 
     @Data
     @RequiredArgsConstructor(staticName = "of")

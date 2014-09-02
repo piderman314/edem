@@ -11,7 +11,7 @@ public class ObjLoaderTest {
 
     public void testLoadCube() throws IOException, ObjException {
         // when
-        Model model = ObjLoader.parseToModel("/edem/engine/graphics/obj/cube.obj");
+        Model model = ObjParser.parseToModel("/edem/engine/graphics/obj/cube.obj");
     }
     
 }

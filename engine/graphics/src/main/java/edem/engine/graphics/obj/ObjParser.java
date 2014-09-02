@@ -22,14 +22,14 @@ import edem.util.function.ResultOrException;
 
 import org.apache.commons.lang3.StringUtils;
 
-public final class ObjLoader {
+public final class ObjParser {
     
-    private ObjLoader() {
+    private ObjParser() {
         // NOOP
     }
 
     public static Model parseToModel(String resource) throws  ObjException {
-        try (InputStream resourceInputStream = ObjLoader.class.getResourceAsStream(resource)) {
+        try (InputStream resourceInputStream = ObjParser.class.getResourceAsStream(resource)) {
             return parseToModel(resourceInputStream);
         } catch (IOException ioe) {
             throw new ObjException("Error while parsing to model: ", ioe);

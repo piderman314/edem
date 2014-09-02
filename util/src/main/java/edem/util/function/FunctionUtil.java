@@ -31,7 +31,7 @@ public final class FunctionUtil {
     }
     
     public static <OUTPUT, EXCEPTION extends Exception> Collection<OUTPUT> unwrap(Collection<ResultOrException<OUTPUT, EXCEPTION>> resultOrExceptions) throws EXCEPTION {
-        ResultOrException<OUTPUT, EXCEPTION> exception = resultOrExceptions.stream().filter(ResultOrException::hasException).findFirst().get();
+        ResultOrException<OUTPUT, EXCEPTION> exception = resultOrExceptions.stream().filter(ResultOrException::hasException).findFirst().orElse(null);
         
         if (exception != null) {
             throw exception.getException();

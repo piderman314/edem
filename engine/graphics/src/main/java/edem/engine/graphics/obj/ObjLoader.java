@@ -17,6 +17,7 @@ import edem.engine.graphics.obj.data.Vertex;
 import edem.engine.graphics.obj.data.VertexNormal;
 import edem.engine.graphics.obj.data.VertexTexture;
 import edem.util.function.FunctionUtil;
+import edem.util.function.FunctionUtil.ThrowingFunction;
 import edem.util.function.ResultOrException;
 
 import org.apache.commons.lang3.StringUtils;
@@ -27,13 +28,15 @@ public final class ObjLoader {
         // NOOP
     }
 
-    public static Model parseToModel(String resource) throws IOException, ObjException {
+    public static Model parseToModel(String resource) throws  ObjException {
         try (InputStream resourceInputStream = ObjLoader.class.getResourceAsStream(resource)) {
             return parseToModel(resourceInputStream);
+        } catch (IOException ioe) {
+            throw new ObjException("Error while parsing to model: ", ioe);
         }
     }
     
-    public static Model parseToModel(InputStream inputStream) throws IOException, ObjException {
+    public static Model parseToModel(InputStream inputStream) throws ObjException {
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream))) {
             Map<String, List<String>> lines = 
             bufferedReader
@@ -49,28 +52,16 @@ public final class ObjLoader {
             for (Entry<String, List<String>> lineGroup : lines.entrySet()) {
                 switch (lineGroup.getKey()) {
                     case Vertex.PREFIX:
-                        Collection<ResultOrException<Vertex, ObjException>> vertices = lineGroup.getValue().stream()
-                                .map(FunctionUtil.wrapException(Vertex::of))
-                                .collect(Collectors.toList());
-                        vertexList = new ArrayList<>(FunctionUtil.<Vertex, ObjException>unwrap(vertices));
+                        vertexList = parseLines(lineGroup.getValue(), Vertex::of);
                     break;
                     case VertexTexture.PREFIX:
-                        Collection<ResultOrException<VertexTexture, ObjException>> vertexTextures = lineGroup.getValue().stream()
-                                .map(FunctionUtil.wrapException(VertexTexture::of))
-                                .collect(Collectors.toList());
-                        vertexTextureList = new ArrayList<>(FunctionUtil.<VertexTexture, ObjException>unwrap(vertexTextures));
+                        vertexTextureList = parseLines(lineGroup.getValue(), VertexTexture::of);
                     break;
                     case VertexNormal.PREFIX:
-                        Collection<ResultOrException<VertexNormal, ObjException>> vertexNormals = lineGroup.getValue().stream()
-                                .map(FunctionUtil.wrapException(VertexNormal::of))
-                                .collect(Collectors.toList());
-                        vertexNormalList = new ArrayList<>(FunctionUtil.<VertexNormal, ObjException>unwrap(vertexNormals));
+                        vertexNormalList = parseLines(lineGroup.getValue(), VertexNormal::of);
                     break;
                     case Face.PREFIX:
-                        Collection<ResultOrException<Face, ObjException>> faces = lineGroup.getValue().stream()
-                                .map(FunctionUtil.wrapException(Face::of))
-                                .collect(Collectors.toList());
-                        faceList = new ArrayList<>(FunctionUtil.<Face, ObjException>unwrap(faces));
+                        faceList = parseLines(lineGroup.getValue(), Face::of);
                     break;
                     default:
                         break;
@@ -78,7 +69,19 @@ public final class ObjLoader {
             }
             
             return new Model(vertexList, vertexTextureList, vertexNormalList, faceList);
+        } catch (IOException ioe) {
+            throw new ObjException("Error while parsing to model: ", ioe);
         }
+    }
+    
+    private static <RESULT> List<RESULT> parseLines(List<String> lines, ThrowingFunction<String, RESULT, ObjException> parse) throws ObjException {
+        Collection<ResultOrException<RESULT, ObjException>> parsedLines = 
+                lines
+                .stream()
+                .map(FunctionUtil.wrapException(parse))
+                .collect(Collectors.toList());
+        
+        return new ArrayList<>(FunctionUtil.<RESULT, ObjException> unwrap(parsedLines));
     }
     
 }

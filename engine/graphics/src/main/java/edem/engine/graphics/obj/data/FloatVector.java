@@ -12,7 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
-public abstract class FloatVector implements ParseableLine {
+public abstract class FloatVector {
 
     private static final float DEFAULT_W_VALUE = 1.0f;
     
@@ -23,8 +23,7 @@ public abstract class FloatVector implements ParseableLine {
     
     private final int coordinatesUsed;
     
-    @Override
-    public void parseLine(String line) throws ObjException {
+    protected void parseLine(String line) throws ObjException {
         if (StringUtils.isBlank(line)) {
             throw new ObjException("Cannot parse empty line");
         }

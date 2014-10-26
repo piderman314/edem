@@ -10,16 +10,15 @@ public class VertexTexture extends FloatVector {
     public VertexTexture() {
         super(3);
     }
+    
+    public VertexTexture(String line) throws ObjException {
+        this();
+        parseLine(line);
+    }
 
     @Override
     protected String getPrefix() {
         return PREFIX;
-    }
-    
-    public static VertexTexture of(String line) throws ObjException {
-        VertexTexture vertexTexture = new VertexTexture();
-        vertexTexture.parseLine(line);
-        return vertexTexture;
     }
     
 }

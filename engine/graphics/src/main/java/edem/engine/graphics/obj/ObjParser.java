@@ -52,16 +52,16 @@ public final class ObjParser {
             for (Entry<String, List<String>> lineGroup : lines.entrySet()) {
                 switch (lineGroup.getKey()) {
                     case Vertex.PREFIX:
-                        vertexList = parseLines(lineGroup.getValue(), Vertex::of);
+                        vertexList = parseLines(lineGroup.getValue(), Vertex::new);
                     break;
                     case VertexTexture.PREFIX:
-                        vertexTextureList = parseLines(lineGroup.getValue(), VertexTexture::of);
+                        vertexTextureList = parseLines(lineGroup.getValue(), VertexTexture::new);
                     break;
                     case VertexNormal.PREFIX:
-                        vertexNormalList = parseLines(lineGroup.getValue(), VertexNormal::of);
+                        vertexNormalList = parseLines(lineGroup.getValue(), VertexNormal::new);
                     break;
                     case Face.PREFIX:
-                        faceList = parseLines(lineGroup.getValue(), Face::of);
+                        faceList = parseLines(lineGroup.getValue(), Face::new);
                     break;
                     default:
                         break;

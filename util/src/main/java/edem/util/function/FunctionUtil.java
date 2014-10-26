@@ -12,7 +12,7 @@ public final class FunctionUtil {
     
     public static <INPUT, OUTPUT, EXCEPTION extends Exception> 
         Function<INPUT, ResultOrException<OUTPUT, EXCEPTION>> wrapException(ThrowingFunction<INPUT, OUTPUT, EXCEPTION> function) {
-        return (INPUT operand) -> {
+        return operand -> {
             try {
                 OUTPUT output = function.apply(operand);
                 return new ResultOrException<>(output);

@@ -12,14 +12,17 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 
 @Getter
-public class Face implements ParseableLine {
+public class Face {
 
     public static final String PREFIX = "f";
     
     private List<Indices> indicesList;
     
-    @Override
-    public void parseLine(String line) throws ObjException {
+    public Face(String line) throws ObjException {
+        parseLine(line);
+    }
+    
+    private void parseLine(String line) throws ObjException {
         if (StringUtils.isBlank(line)) {
             throw new ObjException("Cannot parse empty line");
         }
@@ -63,11 +66,7 @@ public class Face implements ParseableLine {
         return Integer.parseInt(index);
     }
     
-    public static Face of(String line) throws ObjException {
-        Face face = new Face();
-        face.parseLine(line);
-        return face;
-    }
+
 
     @Data
     @RequiredArgsConstructor(staticName = "of")

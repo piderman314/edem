@@ -10,16 +10,15 @@ public class VertexNormal extends FloatVector {
     public VertexNormal() {
         super(3);
     }
+        
+    public VertexNormal(String line) throws ObjException {
+        this();
+        parseLine(line);
+    }
     
     @Override
     protected String getPrefix() {
         return PREFIX;
-    }
-    
-    public static VertexNormal of(String line) throws ObjException {
-        VertexNormal vertexNormal = new VertexNormal();
-        vertexNormal.parseLine(line);
-        return vertexNormal;
     }
     
 }

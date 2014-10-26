@@ -34,11 +34,9 @@ public class ModelTest {
 
     public void shouldCreateBuffersVerticesOnly() throws ObjException {
         // given
-        Vertex vertex1 = new Vertex();
-        vertex1.parseLine("v 1.0 2.0 3.0");
+        Vertex vertex1 = new Vertex("v 1.0 2.0 3.0");
         
-        Vertex vertex2 = new Vertex();
-        vertex2.parseLine("v 4.0 5.0 6.0 7.0");
+        Vertex vertex2 = new Vertex("v 4.0 5.0 6.0 7.0");
 
         Indices index1 = Indices.of(2, 0, 0);
         Indices index2 = Indices.of(1, 0, 0);
@@ -55,11 +53,9 @@ public class ModelTest {
     
     public void shouldCreateBuffersVerticesOnlyWithRepeatingIndices() throws ObjException {
         // given
-        Vertex vertex1 = new Vertex();
-        vertex1.parseLine("v 1.0 2.0 3.0");
+        Vertex vertex1 = new Vertex("v 1.0 2.0 3.0");
         
-        Vertex vertex2 = new Vertex();
-        vertex2.parseLine("v 4.0 5.0 6.0 7.0");
+        Vertex vertex2 = new Vertex("v 4.0 5.0 6.0 7.0");
 
         Indices index1 = Indices.of(2, 0, 0);
         Indices index2 = Indices.of(1, 0, 0);
@@ -77,14 +73,11 @@ public class ModelTest {
     
     public void shouldCreateBuffersAllVertices() throws ObjException {
         // given
-        Vertex vertex = new Vertex();
-        vertex.parseLine("v 1.0 2.0 3.0 4.0");
+        Vertex vertex = new Vertex("v 1.0 2.0 3.0 4.0");
 
-        VertexTexture vertexTexture = new VertexTexture();
-        vertexTexture.parseLine("vt 5.0 6.0 7.0");
+        VertexTexture vertexTexture = new VertexTexture("vt 5.0 6.0 7.0");
         
-        VertexNormal vertexNormal = new VertexNormal();
-        vertexNormal.parseLine("vn 1.1 1.2 -3.0");
+        VertexNormal vertexNormal = new VertexNormal("vn 1.1 1.2 -3.0");
 
         Indices index = Indices.of(1, 1, 1);
         
@@ -100,14 +93,11 @@ public class ModelTest {
     
     public void shouldCreateBuffersAllVerticesMixedIndices() throws ObjException {
         // given
-        Vertex vertex = new Vertex();
-        vertex.parseLine("v 1.0 2.0 3.0 4.0");
+        Vertex vertex = new Vertex("v 1.0 2.0 3.0 4.0");
 
-        VertexTexture vertexTexture = new VertexTexture();
-        vertexTexture.parseLine("vt 5.0 6.0 7.0");
+        VertexTexture vertexTexture = new VertexTexture("vt 5.0 6.0 7.0");
         
-        VertexNormal vertexNormal = new VertexNormal();
-        vertexNormal.parseLine("vn 1.1 1.2 -3.0");
+        VertexNormal vertexNormal = new VertexNormal("vn 1.1 1.2 -3.0");
 
         Indices index1 = Indices.of(1, 0, 1);
         Indices index2 = Indices.of(1, 1, 0);
@@ -124,11 +114,9 @@ public class ModelTest {
     
     public void shouldCreateBuffersWithoutTexture() throws ObjException {
         // given
-        Vertex vertex = new Vertex();
-        vertex.parseLine("v 1.0 2.0 3.0 4.0");
+        Vertex vertex = new Vertex("v 1.0 2.0 3.0 4.0");
 
-        VertexNormal vertexNormal = new VertexNormal();
-        vertexNormal.parseLine("vn 1.1 1.2 -3.0");
+        VertexNormal vertexNormal = new VertexNormal("vn 1.1 1.2 -3.0");
 
         Indices index = Indices.of(1, 0, 1);
         
@@ -146,8 +134,7 @@ public class ModelTest {
             expectedExceptionsMessageRegExp = "Trying to index Face.Indices\\(vertexIndex=2, vertexTextureIndex=0, vertexNormalIndex=0\\) but there is not enough data.")
     public void shouldThrowExceptionOnIllegalIndex() throws ObjException {
         // given
-        Vertex vertex = new Vertex();
-        vertex.parseLine("v 1.0 2.0 3.0");
+        Vertex vertex = new Vertex("v 1.0 2.0 3.0");
         
         Indices index = Indices.of(2, 0, 0);
         

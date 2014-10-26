@@ -11,15 +11,14 @@ public class Vertex extends FloatVector {
         super(4);
     }
     
+    public Vertex(String line) throws ObjException {
+        this();
+        parseLine(line);
+    }
+    
     @Override
     protected String getPrefix() {
         return PREFIX;
     }
     
-    public static Vertex of(String line) throws ObjException {
-        Vertex vertex = new Vertex();
-        vertex.parseLine(line);
-        return vertex;
-    }
-
 }

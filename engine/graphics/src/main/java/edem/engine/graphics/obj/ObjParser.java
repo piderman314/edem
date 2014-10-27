@@ -37,7 +37,7 @@ public final class ObjParser {
     }
     
     public static Model parseToModel(InputStream inputStream) throws ObjException {
-        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream))) {
+        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"))) {
             Map<String, List<String>> lines = 
             bufferedReader
                     .lines()

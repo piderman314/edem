@@ -11,8 +11,7 @@ public interface Hex {
         int diffY = Math.abs(getIndex().getY() - other.getIndex().getY());
         int diffZ = Math.abs(getIndex().getZ() - other.getIndex().getZ());
         
-        return (diffX != 0 || diffY != 0 || diffZ != 0) 
-                && diffX <= 1 
+        return  diffX <= 1 
                 && diffY <= 1 
                 && diffZ <= 1;
     }
@@ -26,12 +25,11 @@ public interface Hex {
         int diffY = Math.abs(getIndex().getY() - other.getIndex().getY());
         int diffZ = Math.abs(getIndex().getZ() - other.getIndex().getZ());
         
-        return diffX <= 2
-                && diffX >= 1
-                && diffY <= 2
-                && diffY >= 1
-                && diffZ <= 2
-                && diffZ >= 1;
+        boolean diffXInRange = diffX <= 2 && diffX >= 1;
+        boolean diffYInRange = diffY <= 2 && diffY >= 1;
+        boolean diffZInRange = diffZ <= 2 && diffZ >= 1;
+        
+        return diffXInRange && diffYInRange && diffZInRange;
     }
     
     void setIndex(Index index);

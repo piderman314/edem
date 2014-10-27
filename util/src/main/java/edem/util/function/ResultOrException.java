@@ -40,7 +40,7 @@ public class ResultOrException<RESULT, EXCEPTION extends Exception> {
 
         if (hasResult()) {
             sb.append("Result: [").append(getResult().toString()).append("]");
-        } else if (hasException()) {
+        } else {
             sb.append("Exception: [").append(getException().toString()).append("]");
         }
 

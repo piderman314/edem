@@ -16,6 +16,7 @@
     
     <modules>
         <module>graphics</module>
+        <module>hexes</module>
     </modules>
     
     <dependencies>

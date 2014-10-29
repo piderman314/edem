@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 import javax.annotation.Nonnull;
 
@@ -25,20 +26,19 @@ public class Grid <HEX extends Hex> {
         return grid.put(index, hex);
     }
     
-    @Nonnull
-    public Collection<HEX> allNeighbours(@Nonnull final HEX hex) {
-        return allNeighbours(hex, false);
+    public Collection<HEX> ringAround(@Nonnull final HEX hex, int radius) {
+        return around(hex, radius, Index::ringDeltas);
     }
     
-    @Nonnull
-    public Collection<HEX> allNeighbours(@Nonnull final HEX hex, boolean includeThisHex) {
+    public Collection<HEX> areaAround(@Nonnull final HEX hex, int radius) {
+        return around(hex, radius, Index::areaDeltas);
+    }
+    
+    private Collection<HEX> around(@Nonnull final HEX hex, int radius, Function<Integer, List<Index>> deltaSupplier) {
         List<HEX> neighbours = new ArrayList<>();
         
-        if (includeThisHex) {
-            neighbours.add(hex);
-        }
-        
-        for (Index neighbourIndexDelta : Index.NEIGHBOUR_INDEX_DELTAS) {
+        for (Index neighbourIndexDelta : deltaSupplier.apply(radius)) {
+            
             HEX neighbour = get(hex.getIndex().add(neighbourIndexDelta));
             if (neighbour != null) {
                 neighbours.add(neighbour);

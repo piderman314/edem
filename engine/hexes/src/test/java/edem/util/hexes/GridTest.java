@@ -1,7 +1,9 @@
 package edem.util.hexes;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.empty;
 
 import java.util.Collection;
 
@@ -47,31 +49,19 @@ public class GridTest {
         grid.put(center);
     }
     
-    public void shouldReturnPartialListIncludingCenter() {
+    public void shouldReturnPartialAreaList() {
         // given
         grid.put(hex1);
         grid.put(hex4);
         
         // when
-        Collection<TestHex> hexes = grid.allNeighbours(center, true);
+        Collection<TestHex> hexes = grid.areaAround(center, 2);
         
         // then
         assertThat(hexes, containsInAnyOrder(center, hex1, hex4));
     }
     
-    public void shouldReturnPartialListExcludingCenter() {
-        // given
-        grid.put(hex1);
-        grid.put(hex4);
-        
-        // when
-        Collection<TestHex> hexes = grid.allNeighbours(center);
-        
-        // then
-        assertThat(hexes, containsInAnyOrder(hex1, hex4));
-    }
-    
-    public void shouldReturnFullListIncludingCenter() {
+        public void shouldReturnFullAreaList() {
         // given
         grid.put(hex1);
         grid.put(hex5);
@@ -81,10 +71,34 @@ public class GridTest {
         grid.put(hex6);
         
         // when
-        Collection<TestHex> hexes = grid.allNeighbours(center, true);
+        Collection<TestHex> hexes = grid.areaAround(center, 1);
         
         // then
         assertThat(hexes, containsInAnyOrder(center, hex1, hex2, hex3, hex4, hex5, hex6));
+    }
+    
+    public void shouldReturnPartialRingList() {
+        // given
+        grid.put(hex1);
+        grid.put(hex4);
+        
+        // when
+        Collection<TestHex> hexes = grid.ringAround(center, 1);
+        
+        // then
+        assertThat(hexes, containsInAnyOrder(hex1, hex4));
+    }
+    
+    public void shouldReturnEmptyRingList() {
+        // given
+        grid.put(hex1);
+        grid.put(hex4);
+        
+        // when
+        Collection<TestHex> hexes = grid.ringAround(center, 2);
+        
+        // then
+        assertThat(hexes, is(empty()));
     }
             
 }

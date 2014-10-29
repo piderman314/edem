@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class Index {
 
-    public static final Index[] NEIGHBOUR_INDEX_DELTAS = new Index[] {
+    static final Index[] NEIGHBOUR_INDEX_DELTAS = new Index[] {
         new Index(+1, -1,  0),
         new Index(-1, +1,  0),
         new Index(+1,  0, -1),

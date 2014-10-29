@@ -15,18 +15,18 @@ public class HexTest {
     private TestHex hex4;
     
     @BeforeTest
-    public void init() {
+    public void init() throws HexException {
         hex1 = new TestHex();
-        hex1.setIndex(new Index(1, 1, -2));
+        hex1.setIndex(Index.of(1, 1, -2));
         
         hex2 = new TestHex();
-        hex2.setIndex(new Index(0, 2, -2));
+        hex2.setIndex(Index.of(0, 2, -2));
         
         hex3 = new TestHex();
-        hex3.setIndex(new Index(2, 2, -4));
+        hex3.setIndex(Index.of(2, 2, -4));
         
         hex4 = new TestHex();
-        hex4.setIndex(new Index(0, 3, -3));
+        hex4.setIndex(Index.of(0, 3, -3));
     }
     
     public void shouldBeNeighbours() {

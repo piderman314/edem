@@ -77,8 +77,4 @@ public class HexTest {
         assertThat(neighbours, is(false));
     }
     
-    private static class TestHex extends AbstractHex {
-        //
-    }
-    
 }

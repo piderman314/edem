@@ -25,5 +25,17 @@ public class IndexTest {
         // when
         Index.of(1, 1, 1);
     }
+    
+    public void shouldCalculateDistance() throws HexException {
+        // given
+        Index index1 = Index.of(1, 1, -2);
+        Index index2 = Index.of(0, 2, -2);
+        
+        // when
+        int distance = index1.distanceTo(index2);
+        
+        // then
+        assertThat(distance, is(1));
+    }
         
 }

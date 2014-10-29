@@ -25,6 +25,10 @@ public class Index {
         return new Index(x + other.getX(), y + other.getY(), z + other.getZ());
     }
     
+    public int distanceTo(Index other) {
+        return (Math.abs(x - other.getX()) + Math.abs(y - other.getY()) + Math.abs(z - other.getZ())) / 2;
+    }
+    
     public static Index of(int x, int y, int z) throws HexException {
         if (x + y + z != 0) {
             throw new HexException(x + ", " + y + " and " + z + " do not add up to 0.");
